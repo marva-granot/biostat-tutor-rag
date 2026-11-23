@@ -6,7 +6,7 @@
 |------|--------|-----|
 | Embeddings | `BAAI/bge-small-en-v1.5`, run locally on CPU | Built for retrieval; 384-dimension vectors; 512-token input limit fits chunk sizes of a few hundred words. MIT license. [Model card](https://huggingface.co/BAAI/bge-small-en-v1.5) |
 | Vector store | NumPy: one array of normalised vectors plus a JSON file of metadata | Nothing extra to install and nothing hidden: search is a dot product. A few hundred chunks need no index. |
-| Page text and formulas | Claude reads an image of each page inside the Claude Code session (no API; pages rendered by me, transcriptions saved as one file per page in `data/`) and returns text with formulas as LaTeX; Hebrew content is excluded | The PDF text layer loses fractions, roots and accents. Pages are rendered with `pypdfium2`. `pypdf` is kept to check the transcription against the text layer. |
+| Page text and formulas | Claude reads an image of each page inside the Claude Code session (no API; pages rendered by me, transcriptions saved as one file per page in `data/`) and returns text with formulas as LaTeX; every page is transcribed this way, copying the slide exactly (apparent typos in the source are kept, not corrected); Hebrew content is excluded | The PDF text layer loses fractions, roots and accents, and on some pages drops or merges symbols (for example a lost index $j$, or $\hat\varphi$ and $\bar\varphi$ printed identically). Pages are rendered with `pypdfium2`. `pypdf` is kept to check the transcription against the text layer. |
 | Answer LLM | Open: Gemini free tier or Claude Haiku 5.5 | Decided when the answering step is built. |
 
 ## Dependencies (pinned in `requirements.txt`)

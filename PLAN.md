@@ -14,8 +14,8 @@ Private biostatistics tutor chatbot built with RAG. The goal is that the owner u
 |------|----------|--------|
 | 0. Rules, plan, scaffolding | about 60 min (spent) | done |
 | 1. Understand the input | 15 min | done |
-| 2. Choose the stack | 10 min | awaiting OK |
-| 3. Ingestion | 40 min | todo |
+| 2. Choose the stack | 10 min | done |
+| 3. Ingestion | 40 min | in progress |
 | 4. Retrieval | 20 min | todo |
 | 5. Answering | 20 min | todo |
 | 6. Evaluation | 30 min | todo |
