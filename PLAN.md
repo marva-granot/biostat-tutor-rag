@@ -12,7 +12,7 @@ Private biostatistics tutor chatbot built with RAG. The goal is that the owner u
 
 | Step | Time box | Status |
 |------|----------|--------|
-| 0. Rules, plan, scaffolding | about 60 min (spent) | awaiting OK |
+| 0. Rules, plan, scaffolding | about 60 min (spent) | in progress (approved; commit, push and real hook check left) |
 | 1. Understand the input | 15 min | todo |
 | 2. Choose the stack | 10 min | todo |
 | 3. Ingestion | 40 min | todo |
@@ -31,7 +31,7 @@ Private biostatistics tutor chatbot built with RAG. The goal is that the owner u
 - **Goal:** working rules and a plan agreed before any code; a repo that cannot leak course material.
 - **We do together:** the rules and the plan (done); you run the git commands.
 - **How we test:** privacy hooks block a forced `git add` of a PDF, `.pptx`, `data/`, `index/`, `eval/private/` and `.env` (8 scripted checks passed in a scratch repo; one real check in this repo after the first commit).
-- **Done when:** `CLAUDE.md` and `PLAN.md` approved; `.gitignore`, `README.md` skeleton, `.githooks/`, `scripts/check_no_private_data.sh` and `AI_notes.md` pushed to `marva-granot/biostat-tutor-rag`; the real hook check printed `BLOCKED`.
+- **Done when:** `CLAUDE.md` and `PLAN.md` approved; `.gitignore` (the five listed patterns plus `~$*`, `*.docx`, `.venv/`, `__pycache__/`, `.pytest_cache/`), `README.md` skeleton, `.githooks/`, `scripts/check_no_private_data.sh` and `AI_notes.md` pushed to `marva-granot/biostat-tutor-rag`; the real hook check printed `BLOCKED`.
 - **Cut:** none; this step is small.
 
 ## Step 1 — Understand the input
@@ -77,17 +77,17 @@ Private biostatistics tutor chatbot built with RAG. The goal is that the owner u
 ## Step 6 — Evaluation
 
 - **Goal:** numbers that say how good retrieval and answering are, on questions you wrote.
-- **We do together:** the 15–20 questions with the correct file and page, and the 3–4 out-of-scope questions, kept in `eval/private/`. Claude builds the runner and the format template.
-- **How we test:** the runner computes hit@k (k = 1, 3, 5), citation correctness (cited file and page match the expected page or a page that contains the answer) and out-of-scope behaviour (exact refusal phrase). The runner is itself tested on a 3-question fake set with known expected scores.
-- **Done when:** runner tests pass; the metrics for all three measures are computed and saved as the baseline (with date, parameters and seed) in `EXPERIMENTS.md`; `eval/template.json` (format only, no real questions) is committed; no real question is in git.
-- **Cut:** 12 questions instead of 15–20, and 2 out-of-scope instead of 3–4.
+- **We do together:** the 15–20 tuning questions with the correct file and page, and the 3–4 out-of-scope questions, kept in `eval/private/`. **You write alone:** a held-out set of 4–5 more questions (including 1 out-of-scope) in `eval/private/heldout/`; Claude does not see them. Claude builds the runner and the format template.
+- **How we test:** the runner prints only aggregate numbers for the held-out set. It computes hit@k (k = 1, 3, 5), citation correctness (cited file and page match the expected page or a page that contains the answer) and out-of-scope behaviour (exact refusal phrase). The runner is itself tested on a 3-question fake set with known expected scores.
+- **Done when:** runner tests pass; the metrics for all three measures are computed on the tuning set and saved as the baseline (with date, parameters and seed) in `EXPERIMENTS.md`; `eval/template.json` (format only, no real questions) is committed; no real question is in git; the held-out set exists and is not used for any tuning.
+- **Cut:** 12 tuning questions instead of 15–20, 2 out-of-scope instead of 3–4, and 3 held-out questions instead of 4–5.
 
 ## Step 7 — Improve
 
 - **Goal:** find out which changes help, one at a time, with evidence.
 - **We do together:** the hypothesis for each experiment, written before it is run, and the conclusion afterwards.
 - **How we test:** each experiment changes exactly one parameter (for example chunk size, k, hybrid search, reranking) with the seed fixed, re-runs the same evaluation and records before/after numbers. Nothing is tuned on hidden test data.
-- **Done when:** at least 2 experiments are logged in `EXPERIMENTS.md` with parameter, hypothesis, before/after for each metric and a keep-or-revert decision; the final configuration reproduces its logged numbers on a re-run.
+- **Done when:** the held-out set is run once, on the final configuration only, and its numbers are logged next to the tuning-set numbers; at least 2 experiments are logged in `EXPERIMENTS.md` with parameter, hypothesis, before/after for each metric and a keep-or-revert decision; the final configuration reproduces its logged numbers on a re-run.
 - **Cut:** stop at 1 experiment, the one with the largest expected effect (for example k or chunk size).
 
 ## Step 8 — Interface, README, AI_USAGE.md
@@ -102,5 +102,4 @@ Private biostatistics tutor chatbot built with RAG. The goal is that the owner u
 
 ## Open decisions
 
-- Whether to split your evaluation questions into a tuning set and a held-out set, so that Step 7 never tunes on questions used for the final number.
-- Where `sample_docs/` material comes from (an open-licensed biostatistics text with a linked license), needed for the tests in Step 3 and the demo in Step 8.
+- Where `sample_docs/` material comes from (an open-licensed biostatistics text with a linked license), needed for the tests in Step 3 and the demo in Step 8. Claude proposes options with license links in Step 3.
