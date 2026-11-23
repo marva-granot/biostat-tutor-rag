@@ -5,3 +5,10 @@ eval/private/
 .env
 *.pdf
 *.pptx
+
+# Local working files.
+~$*
+*.docx
+.venv/
+__pycache__/
+.pytest_cache/
