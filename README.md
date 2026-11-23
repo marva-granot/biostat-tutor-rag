@@ -36,6 +36,12 @@ _TBD: retrieval hit@k, citation correctness and out-of-scope behaviour, with the
 
 _TBD: see `EXPERIMENTS.md`._
 
+## Known limitations
+
+- Only the PDF text layer is read. Pages whose content is an image (for example screenshots of exam questions) have no text layer and are skipped, so questions about them cannot be answered.
+- Hebrew content is not supported; only English text is indexed and answered.
+- Formulas are extracted as text, so fractions, roots and accents can be flattened or lost. Retrieval relies mostly on the surrounding words.
+
 ## Lessons learned
 
 _TBD._
