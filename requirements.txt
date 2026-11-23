@@ -1,0 +1,6 @@
+numpy==2.5.5
+sentence-transformers==6.3.0
+google-genai==3.6.1
+pypdfium2==5.15.2
+pillow==13.0.0
+pypdf==7.1.1
