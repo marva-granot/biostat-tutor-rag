@@ -1,0 +1,7 @@
+# Course material and everything derived from it stays local.
+data/
+index/
+eval/private/
+.env
+*.pdf
+*.pptx
