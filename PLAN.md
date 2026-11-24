@@ -15,7 +15,7 @@ Private biostatistics tutor chatbot built with RAG. The goal is that the owner u
 | 0. Rules, plan, scaffolding | about 60 min (spent) | done |
 | 1. Understand the input | 15 min | done |
 | 2. Choose the stack | 10 min | done |
-| 3. Ingestion | 40 min + 40 min page transcription (approved extension) | in progress |
+| 3. Ingestion | 40 min + 40 min page transcription (approved extension) | done |
 | 4. Retrieval | 20 min | todo |
 | 5. Answering | 20 min | todo |
 | 6. Evaluation | 30 min | todo |
@@ -58,6 +58,13 @@ Private biostatistics tutor chatbot built with RAG. The goal is that the owner u
 - **Done when:** the formula approach is chosen by you; all pages except an explicit exclusion list are covered by at least one chunk (the exclusion list starts with the exam-image pages Tirgul 4 p14–22 and any Hebrew-only content, which are skipped and documented as a known limitation in the README); the unit tests pass; running ingestion twice gives identical chunk ids and the second run makes 0 embedding calls; index files exist only under `index/` and `data/` (ignored by git); a git status check shows nothing derived staged.
 - **Cut:** skip the second formula approach if the first already gives readable text on 4 of the 5 pages, and note the remainder as a known limitation.
 - **Deviation (approved):** every page is transcribed from its image (316 pages), which does not fit the 40-minute box; a pilot on one 24-page file took about 3 minutes, and the box was extended by 40 minutes for transcription.
+- **Formula approach (chosen):** page-image transcription to Markdown with LaTeX. Compared with the pypdf text layer on 5 formula-heavy pages (Tirgul 5 p7, 04 MLE p19, Tirgul 4 p13, Tirgul 3 p17, 06 ANOVA p18): the text layer gave readable formulas on 0 of 5 (1 partly), the transcription on 5 of 5, so the second approach was not pursued further.
+- **Deviations (approved):**
+  - The exclusion list is empty: the exam screenshots (Tirgul 4) are transcribed, and no page is Hebrew-only, so all 316 pages have at least one chunk. Hebrew text inside pages is replaced by a marker.
+  - Chunks start with `<Kind>: <PDF name>`, where the kind (`Lecture`, `Recitation`, `Document`) comes from the PDF's folder, so recitations are not labelled as lectures.
+  - Unit tests use transcriptions of a 3-page public-domain extract; `.gitignore` and the privacy hook allow PDFs directly inside `sample_docs/` only.
+  - `index/chunk_ids.json` stores the chunk id of each index row, so a stale index can be detected.
+- **Result:** 351 chunks from 316 pages (20 pages split, largest chunk 403 of 512 tokens); a first embedding run sent 345 texts (59,398 tokens, local model, no cost), a second run sent 0 and produced a byte-identical index; 32 unit tests pass.
 
 ## Step 4 — Retrieval
 
@@ -103,4 +110,4 @@ Private biostatistics tutor chatbot built with RAG. The goal is that the owner u
 
 ## Open decisions
 
-- Where `sample_docs/` material comes from (an open-licensed biostatistics text with a linked license), needed for the tests in Step 3 and the demo in Step 8. Claude proposes options with license links in Step 3.
+- ~~Where `sample_docs/` material comes from.~~ Decided in Step 3: pages 330–332 of Lane, *Online Statistics Education* (public domain); see `sample_docs/SOURCE.md`.

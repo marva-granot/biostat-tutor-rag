@@ -38,9 +38,9 @@ _TBD: see `EXPERIMENTS.md`._
 
 ## Known limitations
 
-- Only the PDF text layer is read. Pages whose content is an image (for example screenshots of exam questions) have no text layer and are skipped, so questions about them cannot be answered.
-- Hebrew content is not supported; only English text is indexed and answered.
-- Formulas are extracted as text, so fractions, roots and accents can be flattened or lost. Retrieval relies mostly on the surrounding words.
+- Pages are transcribed from page images into Markdown with LaTeX formulas, not read from the PDF text layer, because the text layer flattens fractions, drops roots and accents, and misses formulas pasted as pictures. Transcription is a manual step in a Claude Code session, so new course pages are not picked up automatically. `scripts/check_transcripts.py` flags pages whose words disagree with the text layer for a spot check.
+- Hebrew text is omitted and replaced by `[Hebrew omitted]`; only English content is indexed and answered. No page is skipped as a whole.
+- Pictures and plots are not transcribed, except tables of numbers or formulas and English course content shown as a picture (such as screenshots of exam questions). Information that appears only inside a plot cannot be retrieved.
 
 ## Lessons learned
 
