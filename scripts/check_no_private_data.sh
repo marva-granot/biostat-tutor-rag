@@ -10,6 +10,9 @@
 # this check also catches `git add -f` and files that were committed earlier.
 
 PRIVATE_RE='(^|/)(data|index)/|(^|/)eval/private/|(^|/)\.env$|\.(pdf|pptx)$'
+# The one exception: PDFs directly inside sample_docs/ are public-domain test
+# material (sample_docs/SOURCE.md). Subfolders stay blocked so the hole stays small.
+ALLOWED_RE='^sample_docs/[^/]+\.pdf$'
 ZERO=0000000000000000000000000000000000000000
 
 list_files() {
@@ -35,7 +38,7 @@ list_files() {
 
 case "$1" in staged|push) ;; *) echo "usage: $0 staged|push" >&2; exit 2 ;; esac
 
-bad=$(list_files "$1" | sort -u | grep -E "$PRIVATE_RE")
+bad=$(list_files "$1" | sort -u | grep -E "$PRIVATE_RE" | grep -Ev "$ALLOWED_RE")
 
 if [ -n "$bad" ]; then
   echo "BLOCKED: course material or derived data would leave this machine:" >&2

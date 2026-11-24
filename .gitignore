@@ -5,6 +5,8 @@ eval/private/
 .env
 *.pdf
 *.pptx
+# Public-domain sample used by tests and examples (see sample_docs/SOURCE.md).
+!sample_docs/*.pdf
 
 # Local working files.
 ~$*
