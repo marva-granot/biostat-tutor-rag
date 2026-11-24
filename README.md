@@ -44,7 +44,15 @@ Expected output: 5 chunks from 3 pages; the first embedding run embeds 5 texts, 
 
 Arguments are `RAW_DIR TRANSCRIPTS_DIR OUT` for `chunk_pages.py` and `CHUNKS INDEX_DIR CACHE` for `embed_chunks.py`. For other documents, `RAW_DIR` holds the PDFs (a PDF in a `Lectures/` or `Recitations/` folder gets that kind), and `TRANSCRIPTS_DIR` holds one `<pdf stem>_p<NN>.md` file per page, written by transcribing each page image (see Known limitations).
 
-_TBD: asking a question._
+Search the index: prints the 5 best pages with file, page, cosine score and text. Pieces of one page, and slides repeated word for word, count as one result.
+
+```sh
+python -I scripts/retrieve.py ask "Why is the denominator of the sample variance N - 1?" --chunks data/sample/chunks.jsonl --index index/sample
+```
+
+`retrieve.py check QUESTIONS_JSON` prints the top 5 for a list of questions for a hand check. The search refuses an index that was built from different chunks; re-run `embed_chunks.py` after re-chunking.
+
+_TBD: answering a question._
 
 ## Evaluation
 

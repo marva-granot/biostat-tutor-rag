@@ -16,7 +16,7 @@ Private biostatistics tutor chatbot built with RAG. The goal is that the owner u
 | 1. Understand the input | 15 min | done |
 | 2. Choose the stack | 10 min | done |
 | 3. Ingestion | 40 min + 40 min page transcription (approved extension) | done |
-| 4. Retrieval | 20 min | todo |
+| 4. Retrieval | 20 min | done |
 | 5. Answering | 20 min | todo |
 | 6. Evaluation | 30 min | todo |
 | 7. Improve | 25 min | todo |
@@ -74,6 +74,9 @@ Private biostatistics tutor chatbot built with RAG. The goal is that the owner u
 - **How we test:** unit tests with a tiny fixed index (known best chunk for a given query; `k` is respected; results are sorted by score). Hand check: for each of ~10 questions, the top 5 chunks are printed with file, page and score, and you judge each as relevant or not.
 - **Done when:** unit tests pass; the hand-check table (question, top-5 pages, relevant yes/no) is complete; and a threshold you agree on is met — proposal: at least 7 of 10 questions have a relevant chunk in the top 5. If not, we list the failures and their likely causes, and stop for your decision.
 - **Cut:** use 6 questions instead of 10.
+- **Decisions (approved):** questions get bge's query prefix `Represent this sentence for searching relevant passages: ` (model card: https://huggingface.co/BAAI/bge-small-en-v1.5); each result is one page, so pieces of a split page and slides repeated word for word take one slot; questions were drafted by Claude and kept by the owner, 12 instead of ~10.
+- **Result:** 12 of 12 questions have a relevant page in the top 5 (owner's judgment: all results relevant; threshold 7 of 10). The question-level table is private, in `eval/private/retrieval_check_results.md`, because eval questions stay out of git. 42 unit tests pass.
+- **Candidate experiments for Step 7:** (1) chunks that are mostly a formula rank below prose chunks (on the sample, the $s^2$ formula page ranked 5th of 5 for a question asking for that formula); (2) a question that never names the method (post-hoc tests after ANOVA) retrieved general ANOVA pages but no page of the post-hoc lecture; (3) code-listing pages (`.m` files) take top slots for some questions.
 
 ## Step 5 — Answering
 
