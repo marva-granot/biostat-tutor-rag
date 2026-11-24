@@ -64,6 +64,7 @@ Private biostatistics tutor chatbot built with RAG. The goal is that the owner u
   - Chunks start with `<Kind>: <PDF name>`, where the kind (`Lecture`, `Recitation`, `Document`) comes from the PDF's folder, so recitations are not labelled as lectures.
   - Unit tests use transcriptions of a 3-page public-domain extract; `.gitignore` and the privacy hook allow PDFs directly inside `sample_docs/` only.
   - `index/chunk_ids.json` stores the chunk id of each index row, so a stale index can be detected.
+  - Skipped by the owner's decision: a script that renders PDF pages to images (the course page images were rendered once with one-off commands), and a re-runnable page-coverage check against the PDF page counts (checked once by hand: 316 of 316 pages covered).
 - **Result:** 351 chunks from 316 pages (20 pages split, largest chunk 403 of 512 tokens); a first embedding run sent 345 texts (59,398 tokens, local model, no cost), a second run sent 0 and produced a byte-identical index; 32 unit tests pass.
 
 ## Step 4 — Retrieval

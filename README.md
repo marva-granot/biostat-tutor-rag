@@ -26,7 +26,25 @@ They block commits and pushes that include PDFs, `.pptx` files, `data/`, `index/
 
 ## Run on the sample documents
 
-_TBD: commands for ingesting `sample_docs/` and asking a question._
+Ingestion turns page transcriptions into chunks, embeds them, and stores the vector index. Run from the repository root with the virtual environment active and `requirements.txt` installed. The first embedding run downloads `BAAI/bge-small-en-v1.5` from Hugging Face (about 130 MB); after that it runs offline on the CPU.
+
+```sh
+# 1. Chunks: one per page, long pages split; writes one JSON record per chunk.
+python -I scripts/chunk_pages.py sample_docs sample_docs data/sample/chunks.jsonl
+
+# 2. Embeddings and index: writes index/sample/embeddings.npy and chunk_ids.json.
+#    Vectors are cached, so running it again makes no embedding calls.
+python -I scripts/embed_chunks.py data/sample/chunks.jsonl index/sample data/sample/embed_cache.npz
+
+# Optional: compare transcriptions with the PDF text layer and list pages to spot-check.
+python -I scripts/check_transcripts.py sample_docs sample_docs
+```
+
+Expected output: 5 chunks from 3 pages; the first embedding run embeds 5 texts, a second run embeds 0.
+
+Arguments are `RAW_DIR TRANSCRIPTS_DIR OUT` for `chunk_pages.py` and `CHUNKS INDEX_DIR CACHE` for `embed_chunks.py`. For other documents, `RAW_DIR` holds the PDFs (a PDF in a `Lectures/` or `Recitations/` folder gets that kind), and `TRANSCRIPTS_DIR` holds one `<pdf stem>_p<NN>.md` file per page, written by transcribing each page image (see Known limitations).
+
+_TBD: asking a question._
 
 ## Evaluation
 
