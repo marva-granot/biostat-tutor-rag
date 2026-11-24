@@ -15,7 +15,7 @@ Private biostatistics tutor chatbot built with RAG. The goal is that the owner u
 | 0. Rules, plan, scaffolding | about 60 min (spent) | done |
 | 1. Understand the input | 15 min | done |
 | 2. Choose the stack | 10 min | done |
-| 3. Ingestion | 40 min | in progress |
+| 3. Ingestion | 40 min + 40 min page transcription (approved extension) | in progress |
 | 4. Retrieval | 20 min | todo |
 | 5. Answering | 20 min | todo |
 | 6. Evaluation | 30 min | todo |
@@ -57,6 +57,7 @@ Private biostatistics tutor chatbot built with RAG. The goal is that the owner u
 - **How we test:** unit tests on a small open-licensed PDF in `sample_docs/` (source and license linked): every chunk has file name and page, no chunk is empty, chunk ids are stable between runs, the embedding cache is hit on a second run (no re-embedding). On the course PDFs, a local-only check prints page coverage. For formulas: at least two approaches are compared on about 5 formula-heavy pages with before/after text shown to you.
 - **Done when:** the formula approach is chosen by you; all pages except an explicit exclusion list are covered by at least one chunk (the exclusion list starts with the exam-image pages Tirgul 4 p14–22 and any Hebrew-only content, which are skipped and documented as a known limitation in the README); the unit tests pass; running ingestion twice gives identical chunk ids and the second run makes 0 embedding calls; index files exist only under `index/` and `data/` (ignored by git); a git status check shows nothing derived staged.
 - **Cut:** skip the second formula approach if the first already gives readable text on 4 of the 5 pages, and note the remainder as a known limitation.
+- **Deviation (approved):** every page is transcribed from its image (316 pages), which does not fit the 40-minute box; a pilot on one 24-page file took about 3 minutes, and the box was extended by 40 minutes for transcription.
 
 ## Step 4 — Retrieval
 
